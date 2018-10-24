@@ -1,0 +1,10 @@
+# 2018-10-24 (cc) <paul4hough@gmail.com>
+#
+---
+pkgs:
+  Common:
+    - xterm
+    - emacs
+  Debian:
+    - x11-apps
+    - x11-utils

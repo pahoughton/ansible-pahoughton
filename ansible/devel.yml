@@ -1,0 +1,17 @@
+# 2018-10-24 (cc) <paul4hough@gmail.com>
+#
+---
+- hosts: devel
+
+  tasks:
+    - name: install devel common packages
+      become: true
+      package:
+        name: "{{ pkgs['Common'] }}"
+        state: present
+
+    # - name: install devel os family packages
+    #   become: true
+    #   package:
+    #     name: "{{ pkgs[ ansible_os_family] }}"
+    #     state: present

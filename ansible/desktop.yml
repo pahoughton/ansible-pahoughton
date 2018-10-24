@@ -1,0 +1,53 @@
+# 2018-10-24 (cc) <paul4hough@gmail.com>
+#
+---
+- hosts: desktop
+
+  tasks:
+    - name: use apt-cacher
+      become: true
+      copy:
+        dest: /etc/apt/apt.conf.d/02-apt-cacher-ng-proxy
+        content: Acquire::http { Proxy "http://192.168.0.5:3142"; };
+        mode: 0664
+
+    - name: update apt cache
+      become: true
+      apt:
+        update_cache: true
+        upgrade: safe
+
+
+    - name: install x11 server
+      become: true
+      package:
+        name:
+          - xorg
+          - xserver-xorg-legacy
+          - fvwm
+
+    - name: change xwrapper to allow anybody
+      become: true
+      replace:
+        path: /etc/X11/Xwrapper.config
+        regexp: 'allowed_users=.*'
+        replace: allowed_users=anybody
+
+    - name: change xinit listen to tcp
+      become: true
+      replace:
+        path: /etc/X11/xinit/xserverrc
+        regexp: '-nolisten tcp'
+        replace: '-listen tcp'
+
+    - name: install common packages
+      become: true
+      package:
+        name: "{{ pkgs['Common'] }}"
+        state: present
+
+    - name: install os family packages
+      become: true
+      package:
+        name: "{{ pkgs[ ansible_os_family] }}"
+        state: present

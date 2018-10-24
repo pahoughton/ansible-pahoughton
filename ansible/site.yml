@@ -1,0 +1,26 @@
+# 2018-10-24 (cc) <paul4hough@gmail.com>
+#
+- hosts: all
+
+  tasks:
+    - name: use apt-cacher
+      become: true
+      copy:
+        dest: /etc/apt/apt.conf.d/02-apt-cacher-ng-proxy
+        content: Acquire::http { Proxy "http://192.168.0.5:3142"; };
+        mode: 0664
+      when: ansible_os_family == 'Debian'
+
+    - name: update apt cache
+      become: true
+      apt:
+        update_cache: true
+        upgrade: safe
+      when: ansible_os_family == 'Debian'
+
+  roles:
+    - telegraf
+
+
+- import_playbook: desktop.yml
+- import_playbook: devel.yml

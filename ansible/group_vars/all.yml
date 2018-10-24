@@ -1,0 +1,15 @@
+# 2018-10-24 (cc) <paul4hough@gmail.com>
+#
+---
+ansible_python_interpreter: /usr/bin/python3
+
+influx_telegraf_addr: http://192.168.0.5:8086
+influx_telegraf_db: telegraf
+
+telegraf_agent_output:
+  - type: influxdb
+    config:
+      - urls:
+          - "{{ influx_telegraf_addr }}"
+      - timeout: "5s"
+      - database: "{{ influx_telegraf_db }}"
