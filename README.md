@@ -2,9 +2,64 @@
 
 [![Test Build Status](https://travis-ci.org/pahoughton/...png)](https://travis-ci.org/pahoughton/..)
 
- This useless project is here to distract you
+Paul's home deployments.
+
+## Validate
+
+rake test
+testinfra backend://node/
+
 
 ## Features
+
+validated configuration of my nodes.
+see testinfra/features.txt
+
+
+### notes
+
+#### zuul - hpZ800 - openSuse15 Leap
+
+* change hostname
+  - /etc/hostname /etc/hosts /etc/postfix/main.cf
+* visudo
+* zypper ref
+* zypper up
+* shutdown -r now
+* sudo pip install --upgrade pip
+* sudo pip install ansible
+
+http://download.opensuse.org/repositories/Cloud:/OpenStack:/Rocky/openSUSE_Leap_15.0
+
+
+
+zypper ar http://download.opensuse.org/repositories/Cloud:/OpenStack:/Rocky/openSUSE_Leap_42.3 OBS:Cloud:OpenStack:Rocky
+zypper install git-core ntp openssh python-devel sudo gcc libffi-devel libopenssl-devel
+
+
+
+- groups:
+  - phys:
+    - cbed (i7x32G):
+      - prometheus
+      - zuul
+      - kuber
+      - docker
+      - vagrant
+      - vbox,
+      - libvirt
+      - lxc
+      - test, build & dev tools
+
+  - virt
+
+
+promethius monitoring
+zuulci workflows
+molecule, tox, serverspec, rspec
+perl, python, ruby, ansible, g++, gcc
+
+
 
 NONE
 

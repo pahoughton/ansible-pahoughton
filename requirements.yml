@@ -1,0 +1,3 @@
+---
+- src: https://github.com/pahoughton/ansible-grafana
+  name: grafana

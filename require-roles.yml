@@ -1,0 +1,6 @@
+---
+- src: https://github.com/pahoughton/ansible-prometheus
+  name: prometheus
+
+- src: https://github.com/pahoughton/ansible-role-zuul
+  name: zuul

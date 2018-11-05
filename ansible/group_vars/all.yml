@@ -3,7 +3,7 @@
 ---
 ansible_python_interpreter: /usr/bin/python3
 
-influx_telegraf_addr: http://192.168.0.5:8086
+influx_telegraf_addr: http://cbed:8086
 influx_telegraf_db: telegraf
 
 telegraf_agent_output:

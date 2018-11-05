@@ -10,8 +10,9 @@
         name: "{{ pkgs['Common'] }}"
         state: present
 
-    # - name: install devel os family packages
-    #   become: true
-    #   package:
-    #     name: "{{ pkgs[ ansible_os_family] }}"
-    #     state: present
+    - name: install devel os family packages
+      become: true
+      package:
+        name: "{{ pkgs[ ansible_os_family] }}"
+        state: present
+      when: pkgs[ ansible_os_family] is defined

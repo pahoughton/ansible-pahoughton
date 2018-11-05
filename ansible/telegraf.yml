@@ -1,0 +1,8 @@
+# 2018-10-23 (cc) <paul4hough@gmail.com>
+#
+# use host group to determine telegraf installation
+---
+- hosts: telegraf
+
+  roles:
+    - role: telegraf

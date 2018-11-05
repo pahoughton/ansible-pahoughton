@@ -1,0 +1,43 @@
+2018-10-24-07:18:15 molecule test start
+--> Validating schema /home/paul/wip/ansible/ansible-houghton/ansible/roles/cport/molecule/default/molecule.yml.
+Validation completed successfully.
+--> Test matrix
+    
+└── default
+    ├── dependency
+    ├── create
+    ├── prepare
+    └── converge
+    
+--> Scenario: 'default'
+--> Action: 'dependency'
+Skipping, missing the requirements file.
+--> Scenario: 'default'
+--> Action: 'create'
+Skipping, instances already created.
+--> Scenario: 'default'
+--> Action: 'prepare'
+Skipping, instances already prepared.
+--> Scenario: 'default'
+--> Action: 'converge'
+    
+    PLAY [Converge] ****************************************************************
+    
+    TASK [Gathering Facts] *********************************************************
+    ok: [instance]
+    
+    TASK [cport : use apt-cacher] **************************************************
+    ok: [instance]
+    
+    TASK [cport : update apt cache] ************************************************
+ [WARNING]: Could not find aptitude. Using apt-get instead.
+    ok: [instance]
+    
+    TASK [cport : install x11 server] **********************************************
+    changed: [instance]
+    
+    PLAY RECAP *********************************************************************
+    instance                   : ok=4    changed=1    unreachable=0    failed=0
+    
+    
+2018-10-24-07:19:49 molecule test stop

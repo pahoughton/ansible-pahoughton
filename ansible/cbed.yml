@@ -1,0 +1,20 @@
+# 2018-10-23 (cc) <paul4hough@gmail.com>
+#
+---
+- hosts: cbed
+
+  vars:
+    influx_telegraf_addr: http://10.1.1.1:8086
+    influx_telegraf_db: telegraf
+
+  roles:
+    - role: telegraf
+      telegraf_plugins_extra:
+        - plugin: docker
+      telegraf_agent_output:
+        - type: influxdb
+          config:
+            - urls:
+                - "{{ influx_telegraf_addr }}"
+            - timeout: "5s"
+            - database: "{{ influx_telegraf_db }}"

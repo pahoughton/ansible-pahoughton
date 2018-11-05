@@ -1,0 +1,12 @@
+# 2018-10-24 (cc) <paul4hough@gmail.com>
+#
+---
+- hosts: cport
+
+  tasks:
+
+    - name: install fvwm
+    - name: connect wifi
+    - name: install paul
+    - name: install validation tools
+    - name: configure backup

@@ -5,8 +5,7 @@ pkgs:
   Common:
     - automake
     - gcc
-    - g++
-    - emacs
+    - emacs-x11
     - git
     - iftop
     - lsof
@@ -16,3 +15,7 @@ pkgs:
     - sysstat
     - unar
     - xterm
+  Debian:
+    - g++
+  Suse:
+    - gcc-c++
