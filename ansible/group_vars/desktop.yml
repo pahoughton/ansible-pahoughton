@@ -5,6 +5,10 @@ pkgs:
   Common:
     - xterm
     - emacs
+    - xpdf
+    - fbreader # epub
+    - feh
+    - xload
   Debian:
     - x11-apps
     - x11-utils
