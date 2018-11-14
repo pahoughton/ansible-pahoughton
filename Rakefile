@@ -8,7 +8,7 @@
 $runstart = Time.now
 
 at_exit {
-  runtime = Time.now - $runstart
+  runtime = Time.at(Time.now - $runstart).utc.strftime("%H:%M:%S.%3N")
   puts "run time: #{runtime}"
 }
 

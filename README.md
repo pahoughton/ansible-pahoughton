@@ -18,6 +18,9 @@ see testinfra/features.txt
 
 ### notes
 
+yed - drawing tool
+https://www.yworks.com/products/yed/download
+
 #### zuul - hpZ800 - openSuse15 Leap
 
 * change hostname
