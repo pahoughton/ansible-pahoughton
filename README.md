@@ -4,6 +4,37 @@
 
 Paul's home deployments.
 
+### clementine music player
+https://www.clementine-player.org/
+
+## iphone mount
+https://www.dedoimedo.com/computers/linux-iphone-6s-ios-11.html
+
+ideviceinstaller
+libimobiledevice-utils
+ifuse
+
+WORKED :)
+
+ sudo apt-get install ideviceinstaller python-imobiledevice
+ libimobiledevice-utils libimobiledevice6 libplist3 python-plist ifuse
+ usbmuxd
+
+ usbmuxd -f -v
+ idevicepair pair
+ SUCCESS: Paired with device 421c580dfa7ba121f591b1aed14a657bde7cb268
+ sudo mkdir /media/iPhone
+sudo chown <your user>:<your group> /media/iPhone
+ifuse /media/iPhone/
+
+## taglib
+apt install libtag1-dev
+pip install pytaglib
+
+
+sudo apt install lame mplayer
+
+
 ## Validate
 
 rake test
