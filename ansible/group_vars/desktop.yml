@@ -9,6 +9,10 @@ pkgs:
     - fbreader # epub
     - feh
     - xload
+    - uni2ascii
   Debian:
     - x11-apps
     - x11-utils
+  Dist:
+    - Ubuntu:
+      - ubuntu-restricted-extras

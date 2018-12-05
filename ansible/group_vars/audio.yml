@@ -1,0 +1,15 @@
+# 2018-11-29 (cc) <paul4hough@gmail.com>
+#
+---
+pkgs:
+  Common:
+    - id3v2
+    - mp4v2-utils
+    - sox
+    - libsox-fmt-all
+    - pavucontrol
+    - clementine
+    - libid3-dev
+
+gems:
+  - id3lib-ruby
