@@ -1,15 +1,84 @@
 # 2018-10-24 (cc) <paul4hough@gmail.com>
 #
 ---
-ansible_python_interpreter: /usr/bin/python3
+consul_debug: true
+# is_virtualenv: "{{ lookup('env','VIRTUAL_ENV') | default('', true) }}"
+is_virtualenv: false
 
-influx_telegraf_addr: http://cbed:8086
-influx_telegraf_db: telegraf
+### Package
+# consul_version: "{{ lookup('env','CONSUL_VERSION') | default('1.5.1', true) }}"
+### System user and group
+# consul_manage_user: true
+# consul_user: "consul"
+# consul_manage_group: false
+# consul_group: "bin"
+# consul_systemd_restart_sec: 42
+# consul_systemd_limit_nofile: 65536
+consul_datacenter: maul
+consul_domain: "{{ lookup('env','CONSUL_DOMAIN') | default('consul', true) }}"
+consul_node_meta: {}
+consul_iface: eth0
+consul_node_name: "{{ inventory_hostname_short }}"
+consul_node_role: "{{ lookup('env','CONSUL_NODE_ROLE') | default('client', true) }}"
+consul_recursors: "{{ lookup('env','CONSUL_RECURSORS') | default('[]', true) }}"
+consul_bootstrap_expect: "{{ lookup('env','CONSUL_BOOTSTRAP_EXPECT') | default(false, true) }}"
+consul_bootstrap_expect_value: "{{ _consul_lan_servercount | int }}"
+consul_ui: "{{ lookup('env', 'CONSUL_UI') | default(true, true) }}"
+consul_ui_legacy: "{{ lookup('env', 'CONSUL_UI_LEGACY') | default(false, false) }}"
+consul_disable_update_check: true
+consul_enable_script_checks: false
+consul_enable_local_script_checks: false
+consul_raft_protocol: "\
+  {% if consul_version is version_compare('0.7.0', '<=') %}\
+    1\
+  {% else %}\
+    3\
+  {% endif %}"
+consul_retry_join_skip_hosts: false
+consul_retry_interval: "30s"
+consul_retry_interval_wan: "30s"
+consul_retry_max: 0
+consul_retry_max_wan: 0
+consul_env_vars:
+  - "CONSUL_UI_BETA=false"
 
-telegraf_agent_output:
-  - type: influxdb
-    config:
-      - urls:
-          - "{{ influx_telegraf_addr }}"
-      - timeout: "5s"
-      - database: "{{ influx_telegraf_db }}"
+### Autopilot
+consul_autopilot_enable: "{{ lookup('env', 'CONSUL_AUTOPILOT_ENABLE') | default(false, true) }}"
+consul_autopilot_cleanup_dead_Servers: "{{ lookup('env', 'CONSUL_AUTOPILOT_CLEANUP_DEAD_SERVERS') | default(false, true) }}"
+consul_autopilot_last_contact_threshold: "{{ lookup('env', 'CONSUL_AUTOPILOT_LAST_CONTACT_THRESHOLD') | default('200ms', true) }}"
+consul_autopilot_max_trailing_logs: "{{ lookup('env', 'CONSUL_AUTOPILOT_MAX_TRAILING_LOGS') | default(250, true) }}"
+consul_autopilot_server_stabilization_time: "{{ lookup('env', 'CONSUL_AUTOPILOT_SERVER_STABILIZATION_TIME') | default('10s', true) }}"
+consul_autopilot_redundancy_zone_tag: "{{ lookup('env', 'CONSUL_AUTOPILOT_REDUNDANCY_ZONE_TAG') | default('az', true) }}"
+consul_autopilot_disable_upgrade_migration: "{{ lookup('env', 'CONSUL_AUTOPILOT_DISABLE_UPGRADE_MIGRATION') | default(false, true) }}"
+consul_autopilot_upgrade_version_tag: "{{ lookup('env', 'CONSUL_AUTOPILOT_UPGRADE_VERSION_TAG') | default('', true) }}"
+
+### Addresses
+consul_bind_address: "\
+  {% if ansible_system == 'FreeBSD' %}\
+    {{ lookup('env','CONSUL_BIND_ADDRESS') | default(hostvars[inventory_hostname]['ansible_'+ consul_iface ]['ipv4'][0]['address'], true) }}\
+  {% elif ansible_os_family == 'Windows'  %}\
+    {{ lookup('env','CONSUL_BIND_ADDRESS') | default(hostvars[inventory_hostname]['ansible_ip_addresses'][0], true) }}\
+  {% else %}\
+    {{ lookup('env','CONSUL_BIND_ADDRESS') | default(hostvars[inventory_hostname]['ansible_'+ consul_iface | replace('-', '_')]['ipv4']['address'], true) }}\
+  {% endif %}"
+
+### Servers
+consul_group_name: "{{ lookup('env','CONSUL_GROUP_NAME') | default('consul_instances', true) }}"
+consul_join: []
+consul_join_wan: []
+consul_servers: "\
+  {% set _consul_servers = [] %}\
+  {% for host in groups[consul_group_name] %}\
+    {% set _consul_node_role = hostvars[host]['consul_node_role'] | default('client', true) %}\
+    {% if ( _consul_node_role == 'server' or _consul_node_role == 'bootstrap') %}\
+      {% if _consul_servers.append(host) %}{% endif %}\
+    {% endif %}\
+  {% endfor %}\
+  {{ _consul_servers }}"
+consul_gather_server_facts: false
+
+
+
+
+# services
+consul_services: []

@@ -1,0 +1,26 @@
+[rand-c7-base]
+name=rand CentOS-$releasever - Base
+baseurl=http://10.1.1.20/yum/cent-7/base
+enabled=1
+gpgcheck=0
+
+[rand-c7-updates]
+name=rand CentOS-$releasever - Updates
+baseurl=http://10.1.1.20/yum/cent-7/updates
+enabled=1
+gpgcheck=0
+
+[rand-c7-updates]
+name=rand CentOS-$releasever - Extras
+baseurl=http://10.1.1.20/yum/cent-7/extras
+enabled=1
+gpgcheck=0
+
+
+[rand-epel]
+name=Rand Extra Packages for Enterprise Linux 7 - $basearch
+baseurl=http://10.1.1.20/yum/epel
+enabled=1
+gpgcheck=0
+#gpgcheck=1
+#gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7

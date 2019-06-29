@@ -1,0 +1,53 @@
+# 2019-06-23 (cc) <paul4hough@gmail.com>
+#
+---
+- name: rand - cent mirror
+  hosts: rand
+  tasks:
+    # - import_tasks: tasks-base.yml
+    - import_tasks: tasks-cent-mirror.yml
+
+  vars:
+    nginx_html_demo_template_enable: true
+    nginx_status_enable: true
+    nginx_http_template_enable: true
+    nginx_http_template:
+    nginx_http_template:
+      default:
+        template_file: http/default.conf.j2
+        conf_file_name: default.conf
+        conf_file_location: /etc/nginx/conf.d/
+        port: 80
+        server_name: localhost
+        error_page: /usr/share/nginx/html
+        root: /usr/share/nginx/html
+        https_redirect: false
+        autoindex: false
+        auth_basic: null
+        auth_basic_user_file: null
+        try_files: $uri $uri/index.html $uri.html =404
+        web_server:
+          locations:
+            default:
+              location: /
+              add_headers:
+                strict_transport_security:
+                  name: Strict-Transport-Security
+                  value: max-age=15768000; includeSubDomains
+                  always: true
+              html_file_location: /usr/share/nginx/html
+              html_file_name: index.html
+              autoindex: false
+              auth_basic: null
+              auth_basic_user_file: null
+              try_files: $uri $uri/index.html $uri.html =404
+            yum:
+              location: /yum
+              html_file_location: /srv/mirrors/repos
+              html_file_name: index.html
+              autoindex: true
+          http_demo_conf: true
+
+  roles:
+    - role: nginx
+      become: true

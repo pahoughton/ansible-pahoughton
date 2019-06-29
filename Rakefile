@@ -29,8 +29,16 @@ task :ansible_syntax do |task, args|
   sh "ansible-playbook --syntax-check --list-tasks site.yml -i cbed,"
 end
 
-task :provision do |task, args|
-  sh "vagrant provision cbed"
+task :prov do |task, args|
+  sh "vagrant provision"
+end
+
+task :vup do |task, args|
+  sh "vagrant up"
+end
+
+task :vkill do |task, args|
+  sh "vagrant destroy -f"
 end
 
 task :test, [:backend] do | task, args|

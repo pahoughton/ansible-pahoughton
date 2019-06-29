@@ -4,6 +4,7 @@
 pkgs:
   Common:
     - id3v2
+    - lame
     - mp4v2-utils
     - sox
     - libsox-fmt-all

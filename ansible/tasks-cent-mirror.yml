@@ -1,0 +1,43 @@
+# 2019-06-23 (cc) <paul4hough@gmail.com>
+#
+---
+
+- name: create repo dir
+  become: true
+  file:
+    path: /srv/mirrors/repos/yum/test
+    state: directory
+    recurse: true
+    mode: '0755'
+
+- name: Put SELinux in permissive mode, logging actions that would be blocked.
+  become: true
+  selinux:
+    policy: targeted
+    state: permissive
+
+# packages: yum-utils, nginx, createrepo
+
+# createrepo -g /srv/mirrors/repos/yum/epel/comps.xml /srv/mirrors/repos/yum/epel
+# [root@rand cent-7]# createrepo -g /srv/mirrors/repos/yum/cent-7/base/comps.xml /srv/mirrors/repos/yum/cent-7/base
+# for d in /srv/mirrors/repos/yum/cent-7/extras /srv/mirrors/repos/yum/cent-7/updates ; do createrepo $d; done
+
+[root@rand cent-7]# cat /etc/nginx/default.d/default.conf
+    location /yum {
+        root   /srv/mirrors/repos;
+        index  index.html;
+        autoindex on;
+    }
+    sub_filter_once off;
+    sub_filter 'server_hostname' '$hostname';
+    sub_filter 'server_address' '$server_addr:$server_port';
+    sub_filter 'server_url' '$request_uri';
+    sub_filter 'remote_addr' '$remote_addr:$remote_port';
+    sub_filter 'server_date' '$time_local';
+    sub_filter 'client_browser' '$http_user_agent';
+    sub_filter 'request_id' '$request_id';
+    sub_filter 'nginx_version' '$nginx_version';
+    sub_filter 'document_root' '$document_root';
+    sub_filter 'proxied_for_ip' '$http_x_forwarded_for';
+
+open firewall

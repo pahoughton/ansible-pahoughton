@@ -1,20 +1,72 @@
 # 2018-10-23 (cc) <paul4hough@gmail.com>
 #
 ---
-- hosts: cbed
-
+- name: cbed prom server
+  hosts: localhost
   vars:
-    influx_telegraf_addr: http://10.1.1.1:8086
-    influx_telegraf_db: telegraf
+    consul_datacenter: vmaul
+    prometheus_scrape_configs:
+      - job_name: prometheus
+        static_configs:
+          - targets:
+              - localhost:9090
+      - job_name: node
+        static_configs:
+          - targets:
+              - localhost:9100
+    grafana_security:
+      admin_user: admin
+      admin_password: "admin"
+
+  # tasks:
+  #   - name: node-exporter consul service
+  #     consul:
+  #       service_name: node-exporter
+  #       service_port: 9100
 
   roles:
-    - role: telegraf
-      telegraf_plugins_extra:
-        - plugin: docker
-      telegraf_agent_output:
-        - type: influxdb
-          config:
-            - urls:
-                - "{{ influx_telegraf_addr }}"
-            - timeout: "5s"
-            - database: "{{ influx_telegraf_db }}"
+    - role: base
+
+    - role: node-exporter
+      become: true
+
+    - role: prometheus
+      become: true
+
+    - role: grafana
+      become: true
+
+  # vars:
+  #   # influx_telegraf_addr: http://10.1.1.1:8086
+  #   # influx_telegraf_db: telegraf
+
+  # roles:
+  #   - role: ansible-role-nginx
+  #     nginx_http_template_enable: true
+  #     nginx_http_template:
+  #       default:
+  #         port: 80
+  #         server_name: localhost
+  #         error_page: /usr/share/nginx/html
+  #         autoindex: false
+  #         web_server:
+  #           locations:
+  #             default:
+  #               location: /
+  #               html_file_location: /usr/share/nginx/html
+  #               html_file_name: index.html
+  #             repo:
+  #               location: /repo
+  #               autoindex: true
+  #               html_file_location: /srv/repos
+
+    # - role: telegraf
+    #   telegraf_plugins_extra:
+    #     - plugin: docker
+    #   telegraf_agent_output:
+    #     - type: influxdb
+    #       config:
+    #         - urls:
+    #             - "{{ influx_telegraf_addr }}"
+    #         - timeout: "5s"
+    #         - database: "{{ influx_telegraf_db }}"

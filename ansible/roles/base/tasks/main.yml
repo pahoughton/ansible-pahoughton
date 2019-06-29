@@ -1,0 +1,27 @@
+# 2019-06-24 (cc) <paul4hough@gmail.com>
+#
+---
+# - name: update RedHat family packages
+#   become: true
+#   yum:
+#     update_cache: true
+#     name: "*"
+#     state: latest
+#   when: ansible_os_family == 'RedHat'
+
+- name: install dep packages
+  become: true
+  package:
+    name:
+      - python-pip
+      - python-netaddr
+
+- name: install dep pips
+  become: true
+  pip:
+    name:
+      - python-consul
+      - jmespath
+
+- name: reset-conn
+  meta: reset_connection

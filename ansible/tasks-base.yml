@@ -1,0 +1,31 @@
+# 2018-12-23 (cc) <paul4hough@gmail.com>
+# base tasks
+---
+
+- name: add my public key
+  authorized_key:
+    state: present
+    user: "{{ ansible_user_id }}"
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+
+- name: install packages
+  become: true
+  package:
+    name:
+      - python-netaddr
+      - python-pip
+
+- name: install python-consul
+  become: true
+  pip:
+    name:
+      - python-consul
+      - jmespath
+
+# - name: update RedHat family packages
+#   become: true
+#   yum:
+#     update_cache: true
+#     name: "*"
+#     state: latest
+#   when: ansible_os_family == 'RedHat'
